@@ -1,10 +1,10 @@
 from dash import Dash
-from werkzeug.wsgi import DispatcherMiddleware
-import flask
-from werkzeug.serving import run_simple
+
+from flask import Flask
+
 import dash_html_components as html
 
-server = flask.Flask(__name__)
+server = Flask(__name__)
 dash_app1 = Dash(__name__, server = server, url_base_pathname='/dashboard/' )
 dash_app2 = Dash(__name__, server = server, url_base_pathname='/reports/')
 dash_app1.layout = html.Div([html.H1('Hi there, I am app1 for dashboards')])
@@ -23,9 +23,15 @@ def render_dashboard():
 def render_reports():
     return flask.redirect('/dash2')
 
-app = DispatcherMiddleware(server, {
-    '/dash1': dash_app1.server,
-    '/dash2': dash_app2.server
-})
 
-run_simple('0.0.0.0', 8080, app, use_reloader=True, use_debugger=True)
+# from werkzeug.wsgi import DispatcherMiddleware
+# from werkzeug.serving import run_simple
+# app = DispatcherMiddleware(server, {
+#     '/dash1': dash_app1.server,
+#     '/dash2': dash_app2.server
+# })
+# run_simple('0.0.0.0', 8080, app, use_reloader=True, use_debugger=True)
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=8080)
