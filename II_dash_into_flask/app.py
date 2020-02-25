@@ -20,13 +20,3 @@ def hello():
 # run app on one server
 if __name__ == '__main__':
     server.run(debug=True, host='0.0.0.0', port=8080)
-
-
-
-# from werkzeug.wsgi import DispatcherMiddleware
-# from werkzeug.serving import run_simple
-# app = DispatcherMiddleware(server, {
-#     '/dash1': dash_app1.server,
-#     '/dash2': dash_app2.server
-# })
-# run_simple('0.0.0.0', 8080, app, use_reloader=True, use_debugger=True)
