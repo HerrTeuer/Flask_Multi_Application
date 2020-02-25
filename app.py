@@ -5,23 +5,22 @@ from flask import Flask
 import dash_html_components as html
 
 server = Flask(__name__)
-dash_app1 = Dash(__name__, server = server, url_base_pathname='/dashboard/' )
+
+dash_app1 = Dash(__name__, server = server, routes_pathname_prefix='/dashboard/' )
 dash_app2 = Dash(__name__, server = server, url_base_pathname='/reports/')
 dash_app1.layout = html.Div([html.H1('Hi there, I am app1 for dashboards')])
 dash_app2.layout = html.Div([html.H1('Hi there, I am app2 for reports')])
+
+
 @server.route('/')
 @server.route('/hello')
 def hello():
     return 'hello world!'
 
-@server.route('/dashboard')
-def render_dashboard():
-    return flask.redirect('/dash1')
+# run app on one server
+if __name__ == '__main__':
+    server.run(debug=True, host='0.0.0.0', port=8080)
 
-
-@server.route('/reports')
-def render_reports():
-    return flask.redirect('/dash2')
 
 
 # from werkzeug.wsgi import DispatcherMiddleware
@@ -31,7 +30,3 @@ def render_reports():
 #     '/dash2': dash_app2.server
 # })
 # run_simple('0.0.0.0', 8080, app, use_reloader=True, use_debugger=True)
-
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8080)
